@@ -7,6 +7,7 @@ function loadContent(url) {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       document.querySelector('main').innerHTML = this.responseText;
+      history.pushState(null, null, url); // Atualiza a URL na barra de endereços
     }
   };
   xhttp.open('GET', url, true);
@@ -20,4 +21,10 @@ menuItems.forEach(function(item) {
     var link = this.querySelector('a').getAttribute('href');
     loadContent(link);
   });
+});
+
+// Evento de popstate para tratar a navegação do histórico do navegador
+window.addEventListener('popstate', function(e) {
+  var url = window.location.href;
+  loadContent(url);
 });
